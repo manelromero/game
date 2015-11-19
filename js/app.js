@@ -2,7 +2,7 @@
 var Enemy = function(x, y) {
 	this.x = x;
 	this.y = y;
-	this.speed = Math.floor(Math.random() * (300 - 160)) + 160;
+	this.speed = Math.floor(Math.random() * (200 - 100)) + 100;
 	this.sprite = 'images/enemy-bug.png';
 };
 // Update the enemy's position
@@ -54,11 +54,25 @@ Player.prototype.handleInput = function(key) {
 		break;
 	}
 }
-
+// Check collisions
 Player.prototype.checkCollision = function() {
+	// Get the x and y positions for player
+	var playerLeft = this.x;
+	var playerRight = playerLeft + 80;
+	var ypos = this.y;
+	// One by one check with enemies position
 	allEnemies.forEach(function(enemy) {
-		if(enemy.x == this.x) {
-			console.log('Collision');
+		var enemyLeft = enemy.x;
+		var enemyRight = enemyLeft + 80; // Enemy width
+		// First check if are in the same row
+		if(ypos == enemy.y) {
+			// Then check if player is the the enemy box
+			if(playerLeft > enemyLeft && playerLeft < enemyRight) {
+				console.log('Collision');
+			}
+			if(playerRight > enemyLeft && playerRight < enemyRight) {
+				console.log('Collision');
+			}
 		}
 	});
 }
@@ -91,8 +105,8 @@ function updateScore(points) {
 var score = 0
 updateScore(score);
 // Finally create player and enemies
-createEnemy(4);
-var player = new Player(200, 380);
+createEnemy(1);
+var player = new Player(200, 396);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
