@@ -38,7 +38,13 @@ Player.prototype.handleInput = function(key) {
 		if(this.x > 0) this.x -= 100;
 		break;
 	case 'up':
-		this.y <= 44 ? this.y = 380 : this.y -= 84;
+		if(this.y <= 44) {
+			this.y = 380;
+			updateScore(100);
+		} else {
+			this.y -= 84;
+		}
+		//this.y <= 44 ? this.y = 380 : this.y -= 84;
 		break;
 	case 'right':
 		if(this.x < 400) this.x += 100;
@@ -49,6 +55,13 @@ Player.prototype.handleInput = function(key) {
 	}
 }
 
+Player.prototype.checkCollision = function() {
+	allEnemies.forEach(function(enemy) {
+		if(enemy.x == this.x) {
+			console.log('Collision');
+		}
+	});
+}
 // Enemies array
 var allEnemies = [];
 // Create x number of enemies function
@@ -69,10 +82,17 @@ function deleteEnemy(enemy) {
     }
   }
 }
+// Function for updating the score
+function updateScore(points) {
+	score += points;
+	document.getElementById('score').innerHTML = score;
+}
+// Start score
+var score = 0
+updateScore(score);
 // Finally create player and enemies
 createEnemy(4);
 var player = new Player(200, 380);
-
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
