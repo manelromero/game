@@ -31,15 +31,13 @@ Player.prototype.render = function() {
 };
 // Update the enemy's position with the arrow keys
 Player.prototype.handleInput = function(key) {
-	var xVar = 0;
-	var yVar = 0;
 	switch(key) {
 	case 'left':
 		if(this.x > 0) this.x -= 100;
 		break;
 	case 'up':
-		if(this.y <= 44) {
-			this.y = 380;
+		if(this.y <= 60) {
+			this.y = 396;
 			updateScore(100);
 		} else {
 			this.y -= 84;
@@ -76,8 +74,16 @@ Player.prototype.checkCollision = function() {
 		}
 	});
 }
-// Enemies array
-var allEnemies = [];
+// Gem class
+var Gem = function(x,y) {
+	this.x = x;
+	this.y = y;
+	this.sprite = 'images/Gem Blue.png';
+}
+Gem.prototype.render = function() {
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 // Create x number of enemies function
 function createEnemy(x) {
 	for(var i=0; i<x; i++) {
@@ -104,18 +110,20 @@ function updateScore(points) {
 // Start score
 var score = 0
 updateScore(score);
-// Finally create player and enemies
-createEnemy(1);
+// Finally create enemies and player
+var allEnemies = [];
+createEnemy(4);
 var player = new Player(200, 396);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-		var allowedKeys = {
-				37: 'left',
-				38: 'up',
-				39: 'right',
-				40: 'down'
-		};
+	var allowedKeys = {
+		32: 'space',
+		37: 'left',
+		38: 'up',
+		39: 'right',
+		40: 'down'
+	};
 
-		player.handleInput(allowedKeys[e.keyCode]);
+	player.handleInput(allowedKeys[e.keyCode]);
 });
