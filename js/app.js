@@ -32,11 +32,18 @@ Player.prototype.render = function() {
 // Update the enemy's position with the arrow keys
 Player.prototype.handleInput = function(key) {
 	switch(key) {
+	// If space bar is pressed stop/play the game
+	case 'space':
+		window.play = !window.play;
+		start = document.getElementById('start')
+		// Show/hide 'press space' message
+		start.style.display = start.style.display != 'none' ? 'none' : '';
+		break;
 	case 'left':
-		if(this.x > 0) this.x -= 100;
+		if (this.x > 0) this.x -= 100;
 		break;
 	case 'up':
-		if(this.y <= 60) {
+		if (this.y <= 60) {
 			this.y = 396;
 			updateScore(100);
 		} else {
@@ -45,10 +52,10 @@ Player.prototype.handleInput = function(key) {
 		//this.y <= 44 ? this.y = 380 : this.y -= 84;
 		break;
 	case 'right':
-		if(this.x < 400) this.x += 100;
+		if (this.x < 400) this.x += 100;
 		break;
 	case 'down':
-		if(this.y < 380) this.y += 84;
+		if (this.y < 380) this.y += 84;
 		break;
 	}
 }

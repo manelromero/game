@@ -15,6 +15,7 @@
  */
 
 var Engine = (function(global) {
+
 	/* Predefine the variables we'll be using within this scope,
 	 * create the canvas element, grab the 2D context for that canvas
 	 * set the canvas elements height/width and add it to the DOM.
@@ -41,8 +42,19 @@ var Engine = (function(global) {
 		 * would be the same for everyone (regardless of how fast their
 		 * computer is) - hurray time!
 		 */
+
+
 		var now = Date.now(),
 				dt = (now - lastTime) / 1000.0;
+
+		// If has
+		if (pauseMoment == 0) {
+			var timeLost = 0;
+		} else {
+			var timeLost = (now - pauseMoment) / 1000.0;
+			dt -= timeLost;
+			pauseMoment = 0;
+		}
 
 		/* Call our update/render functions, pass along the time delta to
 		 * our update function since it may be used for smooth animation.
@@ -58,7 +70,16 @@ var Engine = (function(global) {
 		/* Use the browser's requestAnimationFrame function to call this
 		 * function again as soon as the browser is able to draw another frame.
 		 */
-		win.requestAnimationFrame(main);
+
+		(function foo() {
+		 	if (window.play) {
+				win.requestAnimationFrame(main);
+		 	} else {
+		 		// Get the moment space is hit
+		 		if (pauseMoment == 0) pauseMoment = now;
+				setTimeout(foo, 100);
+		 	}
+		})();
 	}
 
 	/* This function does some initial setup that should only occur once,
@@ -81,8 +102,8 @@ var Engine = (function(global) {
 	 * on the entities themselves within your app.js file).
 	 */
 	function update(dt) {
-			updateEntities(dt);
-			// checkCollisions();
+		updateEntities(dt);
+		// checkCollisions();
 	}
 
 	/* This is called by the update function  and loops through all of the
@@ -94,7 +115,7 @@ var Engine = (function(global) {
 	 */
 	function updateEntities(dt) {
 		allEnemies.forEach(function(enemy) {
-				enemy.update(dt);
+			enemy.update(dt);
 		});
 		player.checkCollision();
 		//player.update();

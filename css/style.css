@@ -20,3 +20,12 @@ canvas {
 	display: inline;
 	color: #4f67d3;
 }
+
+#start {
+	font: bold 2rem Arial, sans-serif;
+	color: red;
+	position: fixed;
+	width: 100%;
+	top: 310px;
+	left: 0;
+}
