@@ -47,11 +47,11 @@ var Engine = (function(global) {
 		var now = Date.now(),
 				dt = (now - lastTime) / 1000.0;
 
-		// If has
+		// Check if the game has been paused
 		if (pauseMoment == 0) {
 			var timeLost = 0;
 		} else {
-			var timeLost = (now - pauseMoment) / 1000.0;
+			var timeLost = (now - pauseMoment) / 1000.0; // Find out how much time lost
 			dt -= timeLost;
 			pauseMoment = 0;
 		}
@@ -72,7 +72,7 @@ var Engine = (function(global) {
 		 */
 
 		(function foo() {
-		 	if (window.play) {
+		 	if (play) {
 				win.requestAnimationFrame(main);
 		 	} else {
 		 		// Get the moment space is hit
@@ -118,6 +118,7 @@ var Engine = (function(global) {
 			enemy.update(dt);
 		});
 		player.checkCollision();
+		gem.update(dt);
 		//player.update();
 	}
 
@@ -174,6 +175,7 @@ var Engine = (function(global) {
 			enemy.render();
 		});
 		player.render();
+		gem.render();
 	}
 
 	/* This function does nothing but it could have been a good place to
