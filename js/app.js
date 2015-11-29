@@ -2,7 +2,7 @@
 var Enemy = function(x, y) {
 	this.x = x;
 	this.y = y;
-	this.speed = Math.floor(Math.random() * (200 - 100)) + 100;
+	this.speed = Math.floor(Math.random() * (400 - 100)) + 100;
 	this.sprite = 'images/enemy-bug.png';
 };
 // Update the enemy's position
@@ -32,15 +32,18 @@ Player.prototype.handleInput = function(key) {
 	switch(key) {
 		case 'space':
 			play = !play; // Toggle true/false to pause the game
+			if (play & crash) {
+				window.location.reload();
+			}
 			// Show/hide 'press space' message
-			start = document.getElementById('start')
-			start.style.display = start.style.display != 'none' ? 'none' : '';
+			message = document.getElementById('message')
+			message.style.display = message.style.display != 'none' ? 'none' : '';
 			break;
 		case 'left':
 			if (this.x > 0) this.x -= 100;
 			break;
 		case 'up':
-			if (this.y <= 60) { // Player reach the water
+			if (this.y <= 60 && !crash) { // Player reaches the water and not in 'collision mode'
 				this.y = 396;
 				updateScore(100);
 			} else {
@@ -59,22 +62,20 @@ Player.prototype.handleInput = function(key) {
 Player.prototype.checkCollision = function() {
 	// Get the x and y positions for player
 	var playerLeft = this.x;
-	var playerRight = playerLeft + 80; // Player width
+	var playerRight = playerLeft + 80; // 80 is the sprite's player width
 	var ypos = this.y;
 	// One by one check with enemies position
 	allEnemies.forEach(function(enemy) {
 		var enemyLeft = enemy.x;
-		var enemyRight = enemyLeft + 80; // Enemy width
+		var enemyRight = enemyLeft + 80; // 80 is the sprite's enemy width
 		// First check if are in the same row
 		if (ypos == enemy.y) {
 			// Then check if player is the the enemy box
 			if (playerLeft > enemyLeft && playerLeft < enemyRight) {
-				//console.log('Collision');
-				play = false;
+				collision();
 			}
 			if (playerRight > enemyLeft && playerRight < enemyRight) {
-				//console.log('Collision');
-				play = false;
+				collision();
 			}
 		}
 	});
@@ -84,6 +85,13 @@ Player.prototype.checkCollision = function() {
 		gem.x = -100;
 		gemInside = false;
 	};
+}
+
+function collision() {
+	play = false;
+	message.innerHTML = 'FINAL SCORE: ' + score + '<br><br>PRESS SPACE TO<br>PLAY AGAIN';
+	message.style.display = '';
+	crash = true;
 }
 
 // Gem class

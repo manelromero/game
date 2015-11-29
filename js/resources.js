@@ -7,7 +7,8 @@
 
 var play = false,
 		pauseMoment = 0,
-		gemInside = false;
+		gemInside = false,
+		crash = false;
 
 (function() {
 		var resourceCache = {};

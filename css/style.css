@@ -21,9 +21,10 @@ canvas {
 	color: #4f67d3;
 }
 
-#start {
+#message {
 	font: bold 2rem Arial, sans-serif;
-	color: red;
+	color: #5ee6ff;
+	text-shadow: 0 4px 8px rgba(0,0,0,1);
 	position: fixed;
 	width: 100%;
 	top: 310px;

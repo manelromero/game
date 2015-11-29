@@ -71,13 +71,12 @@ var Engine = (function(global) {
 		 * function again as soon as the browser is able to draw another frame.
 		 */
 
-		(function foo() {
+		(function wait() {
 		 	if (play) {
 				win.requestAnimationFrame(main);
-		 	} else {
-		 		// Get the moment space is hit
-		 		if (pauseMoment == 0) pauseMoment = now;
-				setTimeout(foo, 100);
+		 	} else { // Rerun this function until space is pressed and play = true
+		 		if (pauseMoment == 0) pauseMoment = now; // To check for how long the game is paused
+				setTimeout(wait, 100);
 		 	}
 		})();
 	}
