@@ -46,10 +46,11 @@ var Engine = (function(global) {
 				dt = (now - lastTime) / 1000.0;
 
 		// Check if the game has been paused
+		var timeLost;
 		if (pauseMoment === 0) {
-			var timeLost = 0;
+			timeLost = 0;
 		} else {
-			var timeLost = (now - pauseMoment) / 1000.0; // Find out how much time lost
+			timeLost = (now - pauseMoment) / 1000.0; // Find out how much time lost
 			dt -= timeLost;
 			pauseMoment = 0;
 		}
@@ -100,18 +101,7 @@ var Engine = (function(global) {
 	 */
 	function update(dt) {
 		updateEntities(dt);
-		// Add a clock to the game
-		sec += dt;
-		var seconds = Math.round(sec);
-		if (seconds >= 60) {
-			sec = 0;
-			min++;
-		}
-		if (seconds < 10) {
-			document.getElementById('time').innerHTML = min + ':0' + seconds;
-		} else {
-			document.getElementById('time').innerHTML = min + ':' + seconds;
-		}
+		clock(dt);
 	}
 
 	/* This is called by the update function  and loops through all of the
@@ -193,6 +183,21 @@ var Engine = (function(global) {
 	function reset() {
 		// noop
 	}
+
+	// Add a clock to the game
+	function clock(dt) {
+		sec += dt;
+		var seconds = Math.round(sec);
+		if (seconds >= 60) {
+			sec = 0;
+			min++;
+		}
+		if (seconds < 10) {
+			document.getElementById('time').innerHTML = min + ':0' + seconds;
+		} else {
+			document.getElementById('time').innerHTML = min + ':' + seconds;
+		}
+	};
 
 	/* Go ahead and load all of the images we know we're going to need to
 	 * draw our game level. Then set init as the callback method, so that when
