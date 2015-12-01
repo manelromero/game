@@ -46,7 +46,7 @@ var Engine = (function(global) {
 				dt = (now - lastTime) / 1000.0;
 
 		// Check if the game has been paused
-		if (pauseMoment == 0) {
+		if (pauseMoment === 0) {
 			var timeLost = 0;
 		} else {
 			var timeLost = (now - pauseMoment) / 1000.0; // Find out how much time lost
@@ -73,7 +73,7 @@ var Engine = (function(global) {
 		 	if (play) {
 				win.requestAnimationFrame(main);
 		 	} else { // Rerun this function until space is pressed and play = true
-		 		if (pauseMoment == 0) pauseMoment = now; // To check for how long the game is paused
+		 		if (pauseMoment === 0) pauseMoment = now; // To check for how long the game is paused
 				setTimeout(wait, 100);
 		 	}
 		})();
@@ -106,7 +106,7 @@ var Engine = (function(global) {
 		if (seconds >= 60) {
 			sec = 0;
 			min++;
-		};
+		}
 		if (seconds < 10) {
 			document.getElementById('time').innerHTML = min + ':0' + seconds;
 		} else {

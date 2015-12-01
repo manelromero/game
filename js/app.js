@@ -32,7 +32,7 @@ Player.prototype.handleInput = function(key) {
 	switch(key) {
 		case 'space':
 			play = !play; // Toggle true/false to pause the game
-			if (play & crash) {
+			if (play && crash) {
 				window.location.reload(); // Restart the game reloading the page
 			}
 			// Show/hide 'press space' message
@@ -57,7 +57,7 @@ Player.prototype.handleInput = function(key) {
 			if (this.y < 380) this.y += 84;
 			break;
 	}
-}
+};
 // Check collisions
 Player.prototype.checkCollision = function() {
 	// Get the x and y positions for player
@@ -79,35 +79,35 @@ Player.prototype.checkCollision = function() {
 			}
 		}
 	});
-}
+};
 // Check for gem collection
 Player.prototype.checkGemCollected = function() {
 	if (player.x == gem.x && player.y == gem.y + 10) {
 		updateScore(50); // Add 50 points
 		gem.x = -100; // Send the gem out of the canvas
 		gemInside = false;
-	};
-}
+	}
+};
 
 // Gem class
 var Gem = function(x,y) {
 	this.x = x;
 	this.y = y;
 	this.sprite = 'images/Gem Blue.png';
-}
+};
 Gem.prototype.update = function(dt) {
 	timeInside += dt;
 	if (timeInside >= 5) { // Disappear after 5 seconds inside the canvas without been collected
 		gem.x = -100; // 100 pixels out of the canvas
 		gemInside = false;
-	};
+	}
 	var insertGem = Math.floor(Math.random() * (400 - 1)) + 1; // 1/400 probability of generating a gem
 	if (insertGem == 1 && !gemInside) {
 		gemInside = true;
 		createGem();
 		timeInside = 0;
-	};
-}
+	}
+};
 // Draw the gem on the screen
 Gem.prototype.render = function() {
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -157,7 +157,7 @@ function collision() {
 
 
 // Start of the game
-var score = 0 // Start score
+var score = 0; // Start score
 updateScore(score);
 // Create 4 enemies, player and gem
 var allEnemies = [];
