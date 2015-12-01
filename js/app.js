@@ -2,7 +2,7 @@
 var Enemy = function(x, y) {
 	this.x = x;
 	this.y = y;
-	this.speed = Math.floor(Math.random() * (400 - 100)) + 100;
+	this.speed = Math.floor(Math.random() * (400 - 100)) + 100; // Random speed between 100 and 400
 	this.sprite = 'images/enemy-bug.png';
 };
 // Update the enemy's position
@@ -19,7 +19,7 @@ Enemy.prototype.render = function() {
 var Player = function(x, y) {
 	this.x = x;
 	this.y = y;
-	this.sprite = 'images/char-boy.png';
+	this.sprite = 'images/char-pink-girl.png';
 };
 // Update the enemy's position
 Player.prototype.update = function(dt) {};
@@ -33,10 +33,10 @@ Player.prototype.handleInput = function(key) {
 		case 'space':
 			play = !play; // Toggle true/false to pause the game
 			if (play & crash) {
-				window.location.reload();
+				window.location.reload(); // Restart the game reloading the page
 			}
 			// Show/hide 'press space' message
-			message = document.getElementById('message')
+			message = document.getElementById('message'); // Show the message defined in collision()
 			message.style.display = message.style.display != 'none' ? 'none' : '';
 			break;
 		case 'left':
@@ -45,7 +45,7 @@ Player.prototype.handleInput = function(key) {
 		case 'up':
 			if (this.y <= 60 && !crash) { // Player reaches the water and not in 'collision mode'
 				this.y = 396;
-				updateScore(100);
+				updateScore(100); // Add 100 points
 			} else {
 				this.y -= 84;
 			}
@@ -68,9 +68,9 @@ Player.prototype.checkCollision = function() {
 	allEnemies.forEach(function(enemy) {
 		var enemyLeft = enemy.x;
 		var enemyRight = enemyLeft + 80; // 80 is the sprite's enemy width
-		// First check if are in the same row
+		// First check if they are in the same row
 		if (ypos == enemy.y) {
-			// Then check if player is the the enemy box
+			// Then check if player is the the enemy column
 			if (playerLeft > enemyLeft && playerLeft < enemyRight) {
 				collision();
 			}
@@ -79,19 +79,14 @@ Player.prototype.checkCollision = function() {
 			}
 		}
 	});
-	// Check for gem collection
+}
+// Check for gem collection
+Player.prototype.checkGemCollected = function() {
 	if (player.x == gem.x && player.y == gem.y + 10) {
-		updateScore(50);
-		gem.x = -100;
+		updateScore(50); // Add 50 points
+		gem.x = -100; // Send the gem out of the canvas
 		gemInside = false;
 	};
-}
-
-function collision() {
-	play = false;
-	message.innerHTML = 'FINAL SCORE: ' + score + '<br><br>PRESS SPACE TO<br>PLAY AGAIN';
-	message.style.display = '';
-	crash = true;
 }
 
 // Gem class
@@ -100,20 +95,20 @@ var Gem = function(x,y) {
 	this.y = y;
 	this.sprite = 'images/Gem Blue.png';
 }
-var timeInside = 0;
 Gem.prototype.update = function(dt) {
 	timeInside += dt;
-	if (timeInside >= 5) {
-		gem.x = -100;
+	if (timeInside >= 5) { // Disappear after 5 seconds inside the canvas without been collected
+		gem.x = -100; // 100 pixels out of the canvas
 		gemInside = false;
 	};
-	var insertGem = Math.floor(Math.random() * (400 - 1)) + 1; // 1/300
+	var insertGem = Math.floor(Math.random() * (400 - 1)) + 1; // 1/400 probability of generating a gem
 	if (insertGem == 1 && !gemInside) {
 		gemInside = true;
 		createGem();
 		timeInside = 0;
 	};
 }
+// Draw the gem on the screen
 Gem.prototype.render = function() {
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -152,10 +147,19 @@ function createGem() {
 	var sp = Math.floor(Math.random() * 3);
 	gem.sprite = sprites[sp]; // Random color sprite
 }
+// When a collision is detected in player.checkCollision
+function collision() {
+	play = false;
+	message.innerHTML = 'FINAL SCORE: ' + score + '<br><br>PRESS SPACE TO<br>PLAY AGAIN';
+	message.style.display = '';
+	crash = true;
+}
 
+
+// Start of the game
 var score = 0 // Start score
 updateScore(score);
-// Create enemies and player
+// Create 4 enemies, player and gem
 var allEnemies = [];
 createEnemy(4);
 var player = new Player(200, 396);
@@ -165,7 +169,7 @@ gem = new Gem(-100, 60); // Creates gem outside canvas
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
 	var allowedKeys = {
-		32: 'space',
+		32: 'space', // Just added this line to control space key
 		37: 'left',
 		38: 'up',
 		39: 'right',

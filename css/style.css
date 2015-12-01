@@ -1,5 +1,6 @@
 body {
 	text-align: center;
+	font: normal 2rem Arial, sans-serif;
 }
 
 canvas {
@@ -12,11 +13,11 @@ canvas {
 }
 
 #panel {
-	font: normal 2rem Arial, sans-serif;
 	text-align: left;
 }
 
-#score {
+#score,
+#time {
 	display: inline;
 	color: #4f67d3;
 }
