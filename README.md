@@ -2,9 +2,9 @@
 This is my version of a Frogger like game, made during my [Udacity](http://www.udacity.com) Front-End Web Developer Nanodegree program. You have two ways of playing it.
 
 ## Download game
-* Click in this button above
+* Click in this button above,
 
-![alt tag](https://raw.github.com/manelromero/game/master/images/char-boy.png)
+![alt text](https://raw.github.com/manelromero/game/master/images/download.png)
 
 * Copy the `.zip` file to the folder where you want the game.
 * Uncompress the `.zip` file.
