@@ -1,4 +1,4 @@
-// Enemies our player must avoid
+// Enemy class
 var Enemy = function(x, y) {
 	this.x = x;
 	this.y = y;
