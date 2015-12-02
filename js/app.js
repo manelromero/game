@@ -42,35 +42,37 @@ enemy.delete = function(bug) {
 
 // Player
 var player = new Entity(200, 396, 'images/char-pink-girl.png');
+player.play = false;
+player.crash = false;
 // Particular functions for player
 // Update the enemy's position with the arrow keys
 player.handleInput = function(key) {
 	switch(key) {
 		case 'space':
-			play = !play; // Toggle true/false to pause the game
-			if (play && crash) {
+			this.play = !this.play; // Toggle true/false to pause the game
+			if (this.play && this.crash) {
 				window.location.reload(); // Restart the game reloading the page
 			}
 			// Show/hide 'press space' message
-			message = document.getElementById('message'); // Show the message defined in collision()
+			var message = document.getElementById('message'); // Show the message defined in collision()
 			message.style.display = message.style.display != 'none' ? 'none' : '';
 			break;
 		case 'left':
-			if (play && this.x > 0) this.x -= 100;
+			if (this.play && this.x > 0) this.x -= 100;
 			break;
 		case 'up':
-			if (play && this.y <= 60 && !crash) { // Player reaches the water and not in 'collision mode'
+			if (this.play && this.y <= 60 && !this.crash) { // Player reaches the water and not in 'collision mode'
 				this.y = 396;
 				this.updateScore(100); // Add 100 points
 			} else {
-				if (play) this.y -= 84;
+				if (this.play) this.y -= 84;
 			}
 			break;
 		case 'right':
-			if (play && this.x < 400) this.x += 100;
+			if (this.play && this.x < 400) this.x += 100;
 			break;
 		case 'down':
-			if (play && this.y < 380) this.y += 84;
+			if (this.play && this.y < 380) this.y += 84;
 			break;
 	}
 };
@@ -94,17 +96,17 @@ player.checkCollision = function() {
 };
 // Collision detected
 player.collision = function() {
-	play = false;
+	this.play = false;
 	message.innerHTML = 'FINAL SCORE: ' + score + '<br><br>PRESS SPACE TO<br>PLAY AGAIN';
 	message.style.display = '';
-	crash = true;
+	this.crash = true;
 };
 // Check for gem collection
 player.checkGemCollected = function() {
 	if (player.x == gem.x && player.y == gem.y + 10) {
 		player.updateScore(50); // Add 50 points
 		gem.x = -100; // Send the gem out of the canvas
-		gemInside = false;
+		gem.inside = false;
 	}
 };
 // Update score
@@ -117,17 +119,19 @@ player.updateScore = function(points) {
 // Gem
 // Create gem outside the canvas
 var gem = new Entity(-100, 60, 'images/Gem Blue.png');
+gem.inside = false;
+gem.timeInside = 0;
 gem.update = function(dt) {
-	timeInside += dt;
-	if (timeInside >= 5) { // Disappear after 5 seconds inside the canvas without been collected
+	this.timeInside += dt;
+	if (this.timeInside >= 5) { // Disappear after 5 seconds inside the canvas without been collected
 		this.x = -100; // 100 pixels out of the canvas
-		gemInside = false;
+		this.inside = false;
 	}
 	var insertGem = Math.floor(Math.random() * (400 - 1)) + 1; // 1/400 probability of generating a gem
-	if (insertGem == 1 && !gemInside) {
-		gemInside = true;
+	if (insertGem == 1 && !gem.inside) {
+		this.inside = true;
 		this.create();
-		timeInside = 0;
+		this.timeInside = 0;
 	}
 };
 gem.create = function() {

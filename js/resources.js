@@ -5,16 +5,6 @@
  * to load the same image multiple times.
  */
 
-var play = false, // To control play/pause
-		pauseMoment = 0, // To acumulate time in pause
-		gemInside = false, // True if gem inside the canvas
-		timeInside = 0, // To control time a gem is inside canvas without been collected
-		crash = false, // For collisions
-		sec = 0, // Seconds
-		min = 0; // Minutes
-
-// No further modifications in this file
-
 (function() {
 		var resourceCache = {};
 		var loading = [];

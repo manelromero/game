@@ -24,7 +24,10 @@ var Engine = (function(global) {
 		win = global.window,
 		canvas = doc.createElement('canvas'),
 		ctx = canvas.getContext('2d'),
-		lastTime;
+		lastTime,
+		pauseMoment = 0, // To acumulate time in pause
+		sec = 0, // Seconds
+		min = 0; // Minutes;
 
 	canvas.width = 505;
 	canvas.height = 606;
@@ -71,7 +74,7 @@ var Engine = (function(global) {
 		 */
 
 		(function wait() {
-		 	if (play) {
+		 	if (player.play) {
 				win.requestAnimationFrame(main);
 		 	} else { // Rerun this function until space is pressed and play = true
 		 		if (pauseMoment === 0) pauseMoment = now; // To check for how long the game is paused

@@ -2,9 +2,9 @@
 This is my version of a Frogger like game, made during my [Udacity](http://www.udacity.com) Front-End Web Developer Nanodegree program. You have two ways of playing it.
 
 ## Download game
-* Click in this button above,
+* Click this button to download the game.
 
-![alt text](https://raw.github.com/manelromero/game/master/images/download.png)
+[![button](https://raw.github.com/manelromero/game/master/images/download.png)](https://github.com/manelromero/game/archive/master.zip)
 
 * Copy the `.zip` file to the folder where you want the game.
 * Uncompress the `.zip` file.
@@ -22,4 +22,3 @@ This is my version of a Frogger like game, made during my [Udacity](http://www.u
 * When the player reaches the water, you score **100** points and come back to the bottom row.
 * Gems will show up for five seconds.
 * When a gem is collected, you get **50** extra points.
-
