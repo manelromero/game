@@ -10,24 +10,24 @@ Entity.prototype.render = function() {
 };
 
 
-
+var canvasLimit = 510; // Variable to define when an enemy gets out of the canvas
 // Enemy class
 var Enemy = function(x, y, sprite, speed) {
 	Entity.call(this, x, y, sprite, speed);
 	Enemy.prototype.update = function(dt) {
 		this.x += this.speed * dt; // Multiply horizontal speed by dt parameter
-		if (this.x > 510) this.delete(); // When an enemy reaches the end of the canvas
+		if (this.x > canvasLimit) this.delete(); // When an enemy reaches the end of the canvas
 	};
 	Enemy.prototype.create = function() {
-		var rows = [60,144,228];
+		var rows = [60, 144, 228];
 		var speed = Math.floor(Math.random() * (400 - 100)) + 100; // Random speed between 100 and 400
 		var enemy = new Enemy(-100, rows[Math.floor(Math.random() * 3)], 'images/enemy-bug.png', speed);
 		allEnemies.push(enemy);
 	};
 	Enemy.prototype.delete = function() {
-		for (var i=0; i<allEnemies.length; i++) {
+		for (var i = 0; i < allEnemies.length; i++) {
 			if (allEnemies[i] === this) {
-				allEnemies.splice(i,1);
+				allEnemies.splice(i, 1);
 				this.create();
 			}
 		}
@@ -85,10 +85,10 @@ var Player = function(x, y, sprite) {
 			// First check if they are in the same row
 			if (ypos == enemy.y) {
 				// Then check if player is the the enemy column
-				if (playerLeft > enemyLeft && playerLeft < enemyRight) player.collision();
-				if (playerRight > enemyLeft && playerRight < enemyRight) player.collision();
+				if (playerLeft > enemyLeft && playerLeft < enemyRight) this.collision();
+				if (playerRight > enemyLeft && playerRight < enemyRight) this.collision();
 			}
-		});
+		}, this);
 	};
 	// When a collision is detected
 	Player.prototype.collision = function() {
@@ -99,8 +99,8 @@ var Player = function(x, y, sprite) {
 	};
 	// Check for gem collection
 	Player.prototype.checkGemCollected = function() {
-		if (player.x == gem.x && player.y == gem.y + 10) {
-			player.updateScore(50); // Add 50 points
+		if (this.x == gem.x && this.y == gem.y + 10) {
+			this.updateScore(50); // Add 50 points
 			gem.x = -100; // Send the gem out of the canvas
 			gem.inside = false;
 		}
@@ -136,7 +136,7 @@ var Gem = function(x, y, sprite) {
 	};
 	Gem.prototype.create = function() {
 		this.x = (Math.floor(Math.random() * 5)) * 100; // Random column
-		var rows = [50,134,218];
+		var rows = [50, 134, 218];
 		this.y = rows[Math.floor(Math.random() * 3)]; // Random row
 		var sprites = ['images/Gem Blue.png', 'images/Gem Green.png', 'images/Gem Orange.png'];
 		this.sprite = sprites[Math.floor(Math.random() * 3)]; // Random color sprite
@@ -153,7 +153,7 @@ var score = 0;
 player.updateScore(score);
 // Create 4 enemies
 var allEnemies = [];
-for (var x=1; x<=4; x++) {
+for (var x = 1; x <= 4; x++) {
 	var enemy = new Enemy();
 	enemy.create();
 }
